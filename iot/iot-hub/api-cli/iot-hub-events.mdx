@@ -1,15 +1,15 @@
 ---
 layout: docs
-title: Triggering IoT Hub events via the API
+title: Triggering IoT Hub events via the CLI
 description: This page explains how to trigger IoT Hub events.
 excerpt: |
-  In this tutorial we will use the API through the well known utility curl. This will show you how to trigger IoT Hub events.
+  This will show you how to trigger IoT Hub events.
 totalTime: PT30M
 categories:
   - iot-hub
 brands:
   - elements
-tags: Scaleway IoT Device curl
+tags: Scaleway IoT Device CLI
 image: /assets/images/docs/scaleway.png
 keywords: cloud tutorials, cloud documentations, cloud server, cloud hosting, object storage, s3, functions, containers, serverless, iot, smart, connected, embedded, devices, hubs, mqtt
 ---
@@ -26,6 +26,12 @@ Device information, such as events or errors, are reported on your Hub under the
 
 In the following example we will trigger an event by trying to connect without security on a device where security is required.
 
+<Message type="important">
+
+This section is an addition to the [Getting started documentation](/iot/iot-hub/api-cli/getting-started-with-iot-hub-cli), make sure to follow it first!
+
+</Message>
+
 First, we connect to previously created `dev1` device as _events consumer_
 (we want only _error_ events)
 
@@ -40,11 +46,10 @@ mosquitto_sub \
 Then we create a secured-only device and try to connect it in insecure mode:
 
 ```bash
-curl -sS -H "X-Auth-Token: $SCW_SECRET_KEY" -d '{
-    "hub_id": "'$(jq -r '.id' hub.json)'",
-    "name": "my_secured_device",
-    "allow_insecure": false
-  }' $IOT_API/devices > secure-dev.json
+scw iot device create \
+  hub-id=$(jq -r '.id' hub.json) \
+  allow-insecure=false \
+  -o json > secure-dev.json
 
 jq < secure-dev.json
 ```
@@ -62,7 +67,7 @@ dev1 will receive following message, on topic `$SCW/events/device/<secure-dev-id
 
 ```
 {
-  "time":"2020-01-17T15:01:29Z",
+  "time": "2021-04-26T09:48:03Z",
   "severity": "error",
   "object-type": "device",
   "object-id": "dev3-id",
