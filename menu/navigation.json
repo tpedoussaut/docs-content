@@ -1261,10 +1261,6 @@
                     "slug": "getting-started-with-iot-hub-api"
                   },
                   {
-                    "label": "Triggering IoT Hub events",
-                    "slug": "iot-hub-events"
-                  },
-                  {
                     "label": "Configuring IoT Hub routes",
                     "slug": "iot-hub-routes"
                   },
